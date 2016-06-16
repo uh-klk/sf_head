@@ -1,0 +1,35 @@
+<Behaviour id="Happy" type="Expressive" userPreference="0">
+  <Channel id="neck" mg1="0" mg2="0" mg3="0" ms1="0" ms2="-50" ms3="+50">  
+    <Seq1>
+      <J0 goal="-50"  speed="100" md="1"/>
+      <J1 goal="70"   speed="100" md="1"/>
+      <J2 goal="0"    speed="100" md="1"/>
+      <J3 goal="0"    speed="100" md="1"/>
+    </Seq1>
+    <Seq2>
+      <J0 goal="-90"  speed="100" md="1"/>
+      <J1 goal="70"   speed="100" md="1"/>
+      <J2 goal="0"    speed="100" md="1"/>
+      <J3 goal="0"    speed="100" md="1"/>
+    </Seq2>  
+    <Seq3>
+      <J0 goal="-50"  speed="100" md="1"/>
+      <J1 goal="70"   speed="100" md="1"/>
+      <J2 goal="0"    speed="100" md="1"/>
+      <J3 goal="0"    speed="100" md="1"/>
+    </Seq3>
+    <Seq4>
+      <J0 goal="-90"  speed="100" md="1"/>
+      <J1 goal="70"   speed="100" md="1"/>
+      <J2 goal="0"    speed="100" md="1"/>
+      <J3 goal="0"    speed="100" md="1"/>
+    </Seq4>
+    <Seq5>
+      <J0 goal="-70"  speed="100" md="1"/>
+      <J1 goal="70"   speed="100" md="1"/>
+      <J2 goal="0"    speed="100" md="1"/>
+      <J3 goal="0"    speed="100" md="1"/>
+    </Seq5>
+  </Channel>
+</Behaviour>
+

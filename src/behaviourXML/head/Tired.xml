@@ -1,0 +1,87 @@
+<Behaviour id="Tired" type="Expressive" userPreference="0">
+  <Channel id="neck" mg1="0" mg2="0" mg3="0" ms1="0" ms2="-50" ms3="50">  
+    <Seq1>
+      <J0 goal="-70"  speed="25" md="0" />
+      <J1 goal="40"   speed="25" md="0" />
+      <J2 goal="0"    speed="25" md="0" />
+      <J3 goal="0"    speed="25" md="0" />
+    </Seq1>
+
+    <Seq2>
+      <J0 goal="-70"  speed="25" md="0"/>
+      <J1 goal="40"   speed="25" md="0"/>
+      <J2 goal="20"   speed="80" md="1"/>
+      <J3 goal="0"    speed="25" md="0"/>
+    </Seq2>
+
+    <Seq3>
+      <J0 goal="-70"  speed="25"  md="0"/>
+      <J1 goal="40"   speed="25"  md="0"/>
+      <J2 goal="-40"  speed="100" md="1"/>
+      <J3 goal="0"    speed="25"  md="0"/>
+    </Seq3>
+    
+    <Seq4 >
+      <J0 goal="-70"  speed="25"  md="0"/>
+      <J1 goal="40"   speed="25"  md="0"/>
+      <J2 goal="40"   speed="100" md="1"/>
+      <J3 goal="0"    speed="25"  md="0"/>
+    </Seq4>
+    <Seq5 >
+      <J0 goal="-70"  speed="25" md="0"/>
+      <J1 goal="40"   speed="25" md="0"/>
+      <J2 goal="-20"  speed="80" md="1"/>
+      <J3 goal="0"    speed="25" md="0"/>
+    </Seq5>
+
+    <Seq6 >
+      <J0 goal="-70"  speed="25" md="0"/>
+      <J1 goal="70"   speed="25" md="0"/>
+      <J2 goal="0"    speed="25" md="0"/>
+      <J3 goal="0"    speed="25" md="0"/>
+    </Seq6>
+
+    <Seq7 >
+      <J0 goal="-70"  speed="25" md="0"/>
+      <J1 goal="40"   speed="25" md="0"/>
+      <J2 goal="0"    speed="25" md="0"/>
+      <J3 goal="0"    speed="25" md="0"/>
+    </Seq7>
+
+    <Seq8 >
+      <J0 goal="-70"  speed="25" md="0"/>
+      <J1 goal="40"   speed="25" md="0"/>
+      <J2 goal="20"   speed="80" md="1"/>
+      <J3 goal="0"    speed="25" md="0"/>
+    </Seq8>    
+
+    <Seq9 >
+      <J0 goal="-70"  speed="25"  md="0"/>
+      <J1 goal="40"   speed="25"  md="0"/>
+      <J2 goal="-40"  speed="100" md="1"/>
+      <J3 goal="0"    speed="25"  md="0"/>
+    </Seq9>
+
+    <Seq10 >
+      <J0 goal="-70"  speed="25"  md="0"/>
+      <J1 goal="40"   speed="25"  md="0"/>
+      <J2 goal="40"   speed="100" md="1"/>
+     <J3 goal="0"     speed="25"  md="0"/>
+    </Seq10>
+
+    <Seq11 >
+      <J0 goal="-70"  speed="25" md="0"/>
+      <J1 goal="40"   speed="25" md="0"/>
+      <J2 goal="-20"  speed="80" md="1"/>
+      <J3 goal="0"    speed="25" md="0"/>
+    </Seq11>
+
+    <Seq12 >
+      <J0 goal="-70"  speed="25" md="0"/>
+      <J1 goal="70"   speed="25" md="0"/>
+      <J2 goal="0"    speed="30" md="0"/>
+      <J3 goal="0"    speed="25" md="0"/>
+    </Seq12>
+  </Channel>
+</Behaviour>
+
