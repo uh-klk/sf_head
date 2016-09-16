@@ -6,6 +6,7 @@
 #include "std_msgs/String.h"  //for receiving filename 
 #include "std_msgs/Float64MultiArray.h"
 #include "dynamixel_msgs/JointState.h"
+#include "sensor_msgs/JointState.h"  //publishing the dynamixel joint state to rviz
 #include <math.h>
 
 class SFHeadMovement
@@ -57,10 +58,14 @@ protected:
     ros::Publisher neck_lower_publisher_;
     ros::Publisher tray_joint_publisher_;
 
+    ros::Publisher joint_pub_;
+
     string xml_path_;
     BehaviourParser *head_movement_parser_;
     int is_joint_moving_[4];
     bool command_to_be_executed_;
+
+    sensor_msgs::JointState joint_state_;
 };
 
 void SFHeadMovement::init()
@@ -81,6 +86,21 @@ void SFHeadMovement::init()
 
     neck_lower_subscriber_ = node_.subscribe("/neck_lower_controller/state", 100, &SFHeadMovement::receiveJointStateCB, this);
     neck_lower_publisher_ = node_.advertise<std_msgs::Float64MultiArray>("/neck_lower_controller/command_with_speed",1000);
+
+    joint_pub_ = node_.advertise<sensor_msgs::JointState>("joint_states",1);
+
+    joint_state_.name.resize(4);
+    joint_state_.position.resize(4);
+    
+    joint_state_.name[3] = "head_roll_joint";
+    joint_state_.name[2] = "head_pan_joint";
+    joint_state_.name[1] = "neck_upper_joint";
+    joint_state_.name[0] = "neck_lower_joint";
+
+    for (int n =0; n<4; n++) { 
+          joint_state_.position[n] = 0;
+    }
+
 }
 void SFHeadMovement::receiveCB(const std_msgs::String::ConstPtr& msg)
 {
@@ -93,30 +113,51 @@ void SFHeadMovement::receiveCB(const std_msgs::String::ConstPtr& msg)
 void SFHeadMovement::receiveJointStateCB(const dynamixel_msgs::JointState::ConstPtr& msg)
 {
     int jointId = -1;
-    string head_pan_joint, head_roll_joint, neck_upper_joint, neck_lower_joint;
 
+    //sensor_msgs::JointState joint_state;
+
+    string head_roll_joint, head_pan_joint,  neck_upper_joint, neck_lower_joint;
+
+    head_roll_joint = "head_roll_joint";   
     head_pan_joint = "head_pan_joint";
-    head_roll_joint = "head_roll_joint";
     neck_upper_joint = "neck_upper_joint";
     neck_lower_joint = "neck_lower_joint";
+    
 
-    if (!head_pan_joint.compare(msg->name))
+    joint_state_.header.stamp = ros::Time::now();
+
+    //updated the latest joint state
+
+    if (!head_roll_joint.compare(msg->name)) { //roll
+        joint_state_.position[3] = msg->current_pos ;
         jointId = 3;
-    else if (!head_roll_joint.compare(msg->name))
+    }
+    else if (!head_pan_joint.compare(msg->name)) { //pan
+        joint_state_.position[2] = msg->current_pos ;
         jointId = 2;
-    else if (!neck_upper_joint.compare(msg->name))
+    }
+    else if (!neck_upper_joint.compare(msg->name)) {
+        joint_state_.position[1] = msg->current_pos ;
         jointId = 1;
-    else if (!neck_lower_joint.compare(msg->name))
+    }
+    else if (!neck_lower_joint.compare(msg->name)) {
+        joint_state_.position[0] = msg->current_pos ;
         jointId = 0;
+    }
     else return;
 
+    //ROS_INFO("Joint %d is at [%f]", jointId, msg->current_pos);
+
+    joint_pub_.publish(joint_state_);    //pub the dynamixel joint state to update the joints in rviz
+                                         //only the neck
+   
     processJoinCallbackData(jointId, msg->is_moving);
 
 }
 void SFHeadMovement::processJoinCallbackData(int jointId, int jointMovingState)
 {
     if (jointMovingState != is_joint_moving_[jointId])  {
-        ROS_INFO("Joint %d is in moving state [%d]", jointId, jointMovingState);
+        //ROS_INFO("Joint %d is in moving state [%d]", jointId, jointMovingState);
         is_joint_moving_[jointId] = jointMovingState;
     }
 }
@@ -145,8 +186,8 @@ void SFHeadMovement::publishBehaviourSequence()
 
     action_msg_lower.data.clear();
     action_msg_upper.data.clear();
-    action_msg_roll.data.clear();
     action_msg_pan.data.clear();
+    action_msg_roll.data.clear();
 
     if(head_movement_parser_->getRequestedBehaviour(action_array, &action_array_size))
     {
@@ -160,14 +201,14 @@ void SFHeadMovement::publishBehaviourSequence()
         action_msg_upper.data.push_back(action_array[3]*M_PI/180);
         neck_upper_publisher_.publish(action_msg_upper);
 
+        action_msg_pan.data.push_back(action_array[4]*M_PI/180);
+        action_msg_pan.data.push_back(action_array[5]*M_PI/180);
+        head_pan_publisher_.publish(action_msg_pan);
 
-        action_msg_roll.data.push_back(action_array[4]*M_PI/180);
-        action_msg_roll.data.push_back(action_array[5]*M_PI/180);
+        action_msg_roll.data.push_back(action_array[6]*M_PI/180);
+        action_msg_roll.data.push_back(action_array[7]*M_PI/180);
         head_roll_publisher_.publish(action_msg_roll);
 
-        action_msg_pan.data.push_back(action_array[6]*M_PI/180);
-        action_msg_pan.data.push_back(action_array[7]*M_PI/180);
-        head_pan_publisher_.publish(action_msg_pan);
 
         command_to_be_executed_= true; // this is to make sure every command get executed
     }

@@ -2,6 +2,7 @@
     <node pkg="sf_head" type="sf_head" name="sf_head" output="screen">
        <param name="head_XML_path" value="$(find sf_head)/src/behaviourXML/head/" />
 
+        <remap from="/sf_head/joint_states" to="joint_states"/>
 
     </node>
 </launch>
